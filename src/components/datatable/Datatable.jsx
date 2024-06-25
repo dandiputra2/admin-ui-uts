@@ -1,6 +1,6 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -34,6 +34,11 @@ const rows = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
+const Datatable = () => {
+  const location = useLocation();
+  const type = location.pathname.split('/')[1];
+
+
 const actionColumn = [
   {
     field: "action",
@@ -51,12 +56,11 @@ const actionColumn = [
   },
 ];
 
-const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Users
-        <Link to="/users/new" className="link">
+        {type.toUpperCase()}
+        <Link to={"/" + type +"/new"} className="link">
           Add New
         </Link>
       </div>
