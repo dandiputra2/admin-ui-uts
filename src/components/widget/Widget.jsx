@@ -18,10 +18,10 @@ const Widget = ({ type }) => {
   switch (type) {
     case "user":
       data = {
-        title: "USERS",
+        title: "User",
         isMoney: false,
         link: "See all users",
-        query:"users",
+        query: "users",
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -35,9 +35,10 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "ORDERS",
+        title: "Products",
         isMoney: false,
         link: "View all orders",
+        query: "products",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -49,11 +50,12 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "earning":
+    case "category":
       data = {
-        title: "EARNINGS",
+        title: "Categories",
         isMoney: true,
-        link: "View net earnings",
+        link: "View all categories",
+        query: "categories",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -62,27 +64,21 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
-      data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
-        icon: (
-          <AccountBalanceWalletOutlinedIcon
-            className="icon"
-            style={{
-              backgroundColor: "rgba(128, 0, 128, 0.2)",
-              color: "purple",
-            }}
-          />
-        ),
-      };
-      break;
+
     default:
+      data = {
+        title: "Default",
+        isMoney: false,
+        link: "",
+        query: "",
+        icon: <PersonOutlinedIcon className="icon" />
+      };
       break;
   }
 
   useEffect(() => {
+    //if (!data.query) return;
+
     const fetchData = async () => {
       const today = new Date();
       const lastMonth = new Date(new Date().setMonth(today.getMonth() - 1));
@@ -100,21 +96,20 @@ const Widget = ({ type }) => {
       );
 
       const lastMonthData = await getDocs(lastMonthQuery);
-      const prevMonthData = await getDocs(prevMonthQuery); 
+      const prevMonthData = await getDocs(prevMonthQuery);
 
       setAmount(lastMonthData.docs.length);
       setDiff(100);
 
-      if(prevMonthData.docs.length > 0){
+      if (prevMonthData.docs.length > 0) {
         setDiff(
           ((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) *
             100
         );
-      } 
+      }
     };
     fetchData();
   }, []);
-
   return (
     <div className="widget">
       <div className="left">

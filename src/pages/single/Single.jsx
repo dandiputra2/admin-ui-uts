@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-const Single = (columns) => {
+const Single = ({columns}) => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
   const type = location.pathname.split('/')[1];
